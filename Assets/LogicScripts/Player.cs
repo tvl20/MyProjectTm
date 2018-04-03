@@ -9,5 +9,6 @@ public class Player : MonoBehaviour
     public void StartTurn()
     {
         MyShip.ReduceWeaponCooldown();
+        MyShip.RestoreActionPoints();
     }
 }

@@ -38,7 +38,7 @@ public class DamageAble : MonoBehaviour
     {
         if (HP != MaxHP)
         {
-        	HP += amount;
+            HP += amount;
         }
 
         if (HP > MaxHP)

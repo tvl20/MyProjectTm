@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipLayout : MonoBehaviour 
+public class ShipLayout : MonoBehaviour
 {
     public int SizeX;
     public int SizeY;
     public float TileOffset;
     public Cell[,] Layout;
 
-	// These are the prefabs made in the editor for the tiles with a module
+    // The prefab used for one crew member
+    // This prefab will be used for all the crewmembers, this might be changed int the future
+    public GameObject CrewMemberPrefab;
+
+    // Collection of all the crew on the ship
+    public List<CrewMember> Crew = new List<CrewMember>();
+
+    // These are the prefabs made in the editor for the tiles with a module
     public GameObject EmptyRoomPrefab;
     public GameObject WeaponsModuleRoomPrefab;
     public GameObject SensorsModuleRoomPrefab;
     public GameObject EnginesModuleRoomPrefab;
     public GameObject ShieldsModuleRoomPrefab;
 
-	// These are the specific Modules that are installed
-	// The Ship can call for these when doing calculations
+    // These are the specific Modules that are installed
+    // The Ship can call for these when doing calculations
     public Module WeaponsModule;
     public Module SensorsModule;
     public Module EnginesModule;
@@ -26,9 +33,10 @@ public class ShipLayout : MonoBehaviour
     void Start()
     {
         GenerateDemo1Map();
+        generateDemo1Crew();
     }
 
-    // public GameObject GetCell(int x, int y)
+    // public Cell GetCell(int x, int y)
     // {
     //     if (x >= SizeX ||
     //         y >= SizeY ||
@@ -39,7 +47,7 @@ public class ShipLayout : MonoBehaviour
     //         return null;
     //     }
 
-    //     return transform.GetChild((x * SizeY) + y).GetComponent<GameObject>();
+    //     return Layout[x,y];
     // }
 
     private void GenerateDemo1Map()
@@ -72,25 +80,25 @@ public class ShipLayout : MonoBehaviour
                 {
                     Cell WeaponsCell = Instantiate(WeaponsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
                     Layout[x, y] = WeaponsCell;
-					WeaponsModule = WeaponsCell.Module;
+                    WeaponsModule = WeaponsCell.Module;
                 }
                 else if (x == 2 && y == 0)
                 {
                     Cell EnginesCell = Instantiate(EnginesModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
                     Layout[x, y] = EnginesCell;
-					EnginesModule = EnginesCell.Module;
+                    EnginesModule = EnginesCell.Module;
                 }
                 else if (x == 0 && y == 2)
                 {
                     Cell SensorsCell = Instantiate(SensorsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
                     Layout[x, y] = SensorsCell;
-					SensorsModule = SensorsCell.Module;
+                    SensorsModule = SensorsCell.Module;
                 }
                 else if (x == 2 && y == 2)
                 {
                     Cell ShieldsCell = Instantiate(ShieldsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
                     Layout[x, y] = ShieldsCell;
-					ShieldsModule = ShieldsCell.Module;
+                    ShieldsModule = ShieldsCell.Module;
                 }
                 else
                 {
@@ -100,5 +108,18 @@ public class ShipLayout : MonoBehaviour
                 Layout[x, y].Y = y;
             }
         }
+    }
+
+    private void generateDemo1Crew()
+    {
+        createCrewMember(0, 2);
+        createCrewMember(2, 0);
+    }
+
+    private void createCrewMember(int x, int y)
+    {
+        CrewMember createdCrewMember = Instantiate(CrewMemberPrefab, Layout[x, y].transform.position, Quaternion.identity, Layout[x, y].transform).GetComponent<CrewMember>();
+        Layout[x, y].crewMember = createdCrewMember;
+        Crew.Add(createdCrewMember);
     }
 }

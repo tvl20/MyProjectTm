@@ -94,6 +94,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1413647263800654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4523925690255206}
+  - component: {fileID: 114018693981997844}
+  m_Layer: 0
+  m_Name: SelectionObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1473909386242400
 GameObject:
   m_ObjectHideFlags: 1
@@ -176,6 +192,7 @@ Transform:
   m_Children:
   - {fileID: 4783844798644166}
   - {fileID: 224092163184858902}
+  - {fileID: 4523925690255206}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -192,20 +209,45 @@ Transform:
   m_Father: {fileID: 4783844798644166}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4523925690255206
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413647263800654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4260799951739292}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4783844798644166
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1288780869444850}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84386027, y: -1.1210499, z: -0.1115036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4355167987073496}
   m_Father: {fileID: 4260799951739292}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018693981997844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413647263800654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7639959acacf64fa44ce85d5d1dedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedCell: {fileID: 0}
 --- !u!114 &114325185343981834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,6 +397,9 @@ MonoBehaviour:
   SizeX: 3
   SizeY: 3
   TileOffset: 0.25
+  CrewMemberPrefab: {fileID: 1792574986153986, guid: 0aeb98bbfad02d44b93083e40e468ab0,
+    type: 2}
+  Crew: []
   EmptyRoomPrefab: {fileID: 1184258507225178, guid: 4d50c98cb4c5f22498ba6cdbce648dca,
     type: 2}
   WeaponsModuleRoomPrefab: {fileID: 1698925721843124, guid: 8510a044332bd69459bdb225396a4965,

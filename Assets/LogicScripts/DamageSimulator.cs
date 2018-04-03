@@ -10,13 +10,13 @@ public class DamageSimulator : MonoBehaviour
 
     public void FireWeapons()
     {
-		// TODO: fix not dealing damage to the enemy on the first turn;
-		
-		Weapon firingWeapon = TurnManager.GetActivePlayer().MyShip.Weapon;
-		if (firingWeapon.CooldownCharge < firingWeapon.Cooldown)
-		{
-			return;
-		}
+        // TODO: fix not dealing damage to the enemy on the first turn;
+
+        Weapon firingWeapon = TurnManager.GetActivePlayer().MyShip.Weapon;
+        if (firingWeapon.CooldownCharge < firingWeapon.Cooldown)
+        {
+            return;
+        }
 
         // Target index is the index of the system in the target drop down
         int targetindex = targetDropDown.value;
@@ -44,7 +44,7 @@ public class DamageSimulator : MonoBehaviour
             }
         }
 
-		firingWeapon.ResetCooldown();
+        firingWeapon.ResetCooldown();
     }
 
     private bool hitTarget()

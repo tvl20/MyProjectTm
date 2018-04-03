@@ -51,19 +51,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Cell.cs" />
-     <Compile Include="Assets\CrewMember.cs" />
-     <Compile Include="Assets\DamageAble.cs" />
-     <Compile Include="Assets\DamageLevel.cs" />
-     <Compile Include="Assets\DamageSimulator.cs" />
-     <Compile Include="Assets\Module.cs" />
-     <Compile Include="Assets\Player.cs" />
-     <Compile Include="Assets\Selection.cs" />
-     <Compile Include="Assets\Ship.cs" />
-     <Compile Include="Assets\ShipLayout.cs" />
-     <Compile Include="Assets\TurnManager.cs" />
-     <Compile Include="Assets\Weapon.cs" />
-     <Compile Include="Assets\WeaponCooldownUI.cs" />
+     <Compile Include="Assets\LogicScripts\Cell.cs" />
+     <Compile Include="Assets\LogicScripts\CrewMember.cs" />
+     <Compile Include="Assets\LogicScripts\DamageAble.cs" />
+     <Compile Include="Assets\LogicScripts\DamageLevel.cs" />
+     <Compile Include="Assets\LogicScripts\DamageSimulator.cs" />
+     <Compile Include="Assets\LogicScripts\Module.cs" />
+     <Compile Include="Assets\LogicScripts\Player.cs" />
+     <Compile Include="Assets\LogicScripts\Selection.cs" />
+     <Compile Include="Assets\LogicScripts\Ship.cs" />
+     <Compile Include="Assets\LogicScripts\ShipLayout.cs" />
+     <Compile Include="Assets\LogicScripts\TurnManager.cs" />
+     <Compile Include="Assets\LogicScripts\Weapon.cs" />
+     <Compile Include="Assets\UiScripts\WeaponCooldownUI.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

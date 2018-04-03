@@ -13,6 +13,14 @@ public class Ship : MonoBehaviour
         Weapon.LowerCooldown();
     }
 
+    public void RestoreActionPoints()
+    {
+        foreach (CrewMember member in shipLayout.Crew)
+        {
+            member.RefreshActionPoints();
+        }
+    }
+
     public void TakeDamage(int amount)
     {
         Health -= amount;

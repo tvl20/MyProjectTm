@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cell : MonoBehaviour 
+public class Cell : MonoBehaviour
 {
     public Module Module;
     public CrewMember crewMember;

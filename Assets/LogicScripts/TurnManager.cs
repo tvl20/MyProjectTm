@@ -28,23 +28,23 @@ public class TurnManager : MonoBehaviour
         StartTurn();
     }
 
-	[System.Obsolete("This function only works if there are only 2 players in the list of all the players", false)]
-	public Player GetInactivePlayer()
-	{
-		switch (CurrentPlayerIndex)
-		{
-			case 0:
-				return AllPlayers[1];
-			case 1:
-				return AllPlayers[0];
-		}
-		return null;
-	}
+    [System.Obsolete("This function only works if there are only 2 players in the list of all the players", false)]
+    public Player GetInactivePlayer()
+    {
+        switch (CurrentPlayerIndex)
+        {
+            case 0:
+                return AllPlayers[1];
+            case 1:
+                return AllPlayers[0];
+        }
+        return null;
+    }
 
-	public Player GetActivePlayer()
-	{
-		return AllPlayers[CurrentPlayerIndex];
-	}
+    public Player GetActivePlayer()
+    {
+        return AllPlayers[CurrentPlayerIndex];
+    }
 
     private void changeActivePlayer()
     {
