@@ -7,7 +7,9 @@ public class ShipLayout : MonoBehaviour
     public int SizeX;
     public int SizeY;
     public float TileOffset;
-    public Cell[,] Layout;
+    [SerializeField, HideInInspector] private bool mapIsGenerated;
+    [SerializeField, HideInInspector] private bool crewIsGenerated;
+    public Array2DCell Layout;
 
     // The prefab used for one crew member
     // This prefab will be used for all the crewmembers, this might be changed int the future
@@ -23,35 +25,17 @@ public class ShipLayout : MonoBehaviour
     public GameObject EnginesModuleRoomPrefab;
     public GameObject ShieldsModuleRoomPrefab;
 
-    // These are the specific Modules that are installed
-    // The Ship can call for these when doing calculations
-    public Module WeaponsModule;
-    public Module SensorsModule;
-    public Module EnginesModule;
-    public Module ShieldsModule;
-
     void Start()
     {
         GenerateDemo1Map();
         generateDemo1Crew();
     }
 
-    // public Cell GetCell(int x, int y)
-    // {
-    //     if (x >= SizeX ||
-    //         y >= SizeY ||
-    //         x < 0 ||
-    //         y < 0)
-    //     {
-    //         Debug.LogError("Out of bounds!");
-    //         return null;
-    //     }
-
-    //     return Layout[x,y];
-    // }
-
-    private void GenerateDemo1Map()
+[ContextMenu("GenerateDemoMap")]
+    public void GenerateDemo1Map()
     {
+        if (mapIsGenerated) return;
+        mapIsGenerated = true;
         /*
 		Ship layout:
 		W = weapons
@@ -67,7 +51,7 @@ public class ShipLayout : MonoBehaviour
 
         SizeX = 3;
         SizeY = 3;
-        Layout = new Cell[SizeX, SizeY];
+        Layout = new Array2DCell(SizeX, SizeY);
 
         for (int x = 0; x < SizeX; x++)
         {
@@ -76,50 +60,103 @@ public class ShipLayout : MonoBehaviour
                 float xPos = x + x * TileOffset;
                 float yPos = y + y * TileOffset;
 
+                Cell createdCell;
                 if (x == 0 && y == 0)
                 {
-                    Cell WeaponsCell = Instantiate(WeaponsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
-                    Layout[x, y] = WeaponsCell;
-                    WeaponsModule = WeaponsCell.Module;
+                    createdCell = Instantiate(WeaponsModuleRoomPrefab, new Vector3(xPos, 0, yPos) + this.transform.position, Quaternion.identity, this.transform).GetComponent<Cell>();
                 }
                 else if (x == 2 && y == 0)
                 {
-                    Cell EnginesCell = Instantiate(EnginesModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
-                    Layout[x, y] = EnginesCell;
-                    EnginesModule = EnginesCell.Module;
+                    createdCell = Instantiate(EnginesModuleRoomPrefab, new Vector3(xPos, 0, yPos) + this.transform.position, Quaternion.identity, this.transform).GetComponent<Cell>();
                 }
                 else if (x == 0 && y == 2)
                 {
-                    Cell SensorsCell = Instantiate(SensorsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
-                    Layout[x, y] = SensorsCell;
-                    SensorsModule = SensorsCell.Module;
+                    createdCell = Instantiate(SensorsModuleRoomPrefab, new Vector3(xPos, 0, yPos) + this.transform.position, Quaternion.identity, this.transform).GetComponent<Cell>();
                 }
                 else if (x == 2 && y == 2)
                 {
-                    Cell ShieldsCell = Instantiate(ShieldsModuleRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
-                    Layout[x, y] = ShieldsCell;
-                    ShieldsModule = ShieldsCell.Module;
+                    createdCell = Instantiate(ShieldsModuleRoomPrefab, new Vector3(xPos, 0, yPos) + this.transform.position, Quaternion.identity, this.transform).GetComponent<Cell>();
                 }
                 else
                 {
-                    Layout[x, y] = Instantiate(EmptyRoomPrefab, new Vector3(xPos, 0, yPos), Quaternion.identity, this.transform).GetComponent<Cell>();
+                    createdCell = Instantiate(EmptyRoomPrefab, new Vector3(xPos, 0, yPos) + this.transform.position, Quaternion.identity, this.transform).GetComponent<Cell>();
                 }
-                Layout[x, y].X = x;
-                Layout[x, y].Y = y;
+                
+                Layout.SetValue(x, y, createdCell);
+
+                Layout.GetValue(x, y).X = x;
+                Layout.GetValue(x, y).Y = y;
             }
         }
     }
 
-    private void generateDemo1Crew()
+[ContextMenu("DestroyMap")]
+    public void DestroyMap()
     {
+        for (int i = this.transform.childCount -1; i >= 0; i--)
+        {
+            if(this.transform.GetChild(i).GetComponent<Cell>() != null)
+            {
+#if UNITY_EDITOR
+                DestroyImmediate(this.transform.GetChild(i).gameObject);
+#else
+                Destroy(this.transform.GetChild(i).gameObject);
+#endif
+            }
+        }
+        mapIsGenerated = false;
+    }
+
+[ContextMenu("GenerateCrew")]
+    public void generateDemo1Crew()
+    {
+        if (crewIsGenerated) return;
+        crewIsGenerated = true;
+
         createCrewMember(0, 2);
         createCrewMember(2, 0);
     }
 
+[ContextMenu("DestroyCrew")]
+    public void DestroyCrew()
+    {
+        for (int i = Crew.Count; i >= 0; i--)
+        {
+#if UNITY_EDITOR
+                DestroyImmediate(Crew[i].gameObject);
+#else
+                Destroy(Crew[i].gameObject);
+#endif
+        }
+
+        crewIsGenerated = false;
+    }
+
+    // With these methods other classes can easily get the different modules installed by name
+    public Module GetInstalledModule(string moduleName)
+    {
+        for (int x = 0; x < SizeX; x++)
+        {
+            for (int y = 0; y < SizeY; y++)
+            {
+                Module foundModule = Layout.GetValue(x, y).Module;
+                if (foundModule != null && foundModule.Name == moduleName)
+                {
+                    return foundModule;
+                }
+            }
+        }
+        return null;
+    }
+
     private void createCrewMember(int x, int y)
     {
-        CrewMember createdCrewMember = Instantiate(CrewMemberPrefab, Layout[x, y].transform.position, Quaternion.identity, Layout[x, y].transform).GetComponent<CrewMember>();
-        Layout[x, y].crewMember = createdCrewMember;
+        CrewMember createdCrewMember = Instantiate(CrewMemberPrefab, 
+                                                    Layout.GetValue(x, y).transform.position, 
+                                                    Quaternion.identity, 
+                                                    Layout.GetValue(x, y).transform
+                                                    ).GetComponent<CrewMember>();
+        Layout.GetValue(x, y).crewMember = createdCrewMember;
         Crew.Add(createdCrewMember);
     }
 }

@@ -55,7 +55,7 @@ Transform:
   m_GameObject: {fileID: 1637020274484106}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4813543895586214}
   m_Father: {fileID: 0}
@@ -69,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1162193568105748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 4334614690121028}
   m_RootOrder: 0
@@ -183,4 +183,9 @@ MonoBehaviour:
   MannedBuff: 15
   DamageAble: {fileID: 114747935114673538}
   DamageLevel: 0
-  Manned: 0
+  OnMountedCrewMemberChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  MannedCrewMember: {fileID: 0}

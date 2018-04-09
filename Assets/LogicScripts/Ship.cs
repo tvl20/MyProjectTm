@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-    public int Health = 25;
+    public DamageAble DamageAble;
     public Weapon Weapon;
     public ShipLayout shipLayout;
+
+    void Start()
+    {
+        DamageAble.OnDamageTaken.AddListener(shipDamaged);
+    }
 
     public void ReduceWeaponCooldown()
     {
@@ -21,9 +26,11 @@ public class Ship : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount)
+    private void shipDamaged()
     {
-        Health -= amount;
-        Debug.Log("Shit hit, hp left: " + Health);
+        if (DamageAble.HP == 0)
+        {
+            Debug.Log(this + " has 0 hp remaining, so lost.");
+        }
     }
 }

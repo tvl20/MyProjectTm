@@ -20,26 +20,27 @@ public class DamageSimulator : MonoBehaviour
 
         // Target index is the index of the system in the target drop down
         int targetindex = targetDropDown.value;
-        Debug.Log(targetindex);
 
         if (hitTarget())
         {
+            Debug.Log("Target hit!");
+            
             int damageCaused = getDamageCaused();
             ShipLayout targetLayout = TurnManager.GetInactivePlayer().MyShip.shipLayout;
 
             switch (targetindex)
             {
                 case 0:
-                    targetLayout.WeaponsModule.DamageAble.TakeDamage(damageCaused);
+                    targetLayout.GetInstalledModule("Weapons").DamageAble.TakeDamage(damageCaused);
                     break;
                 case 1:
-                    targetLayout.EnginesModule.DamageAble.TakeDamage(damageCaused);
+                    targetLayout.GetInstalledModule("Engines").DamageAble.TakeDamage(damageCaused);
                     break;
                 case 2:
-                    targetLayout.SensorsModule.DamageAble.TakeDamage(damageCaused);
+                    targetLayout.GetInstalledModule("Sensors").DamageAble.TakeDamage(damageCaused);
                     break;
                 case 3:
-                    targetLayout.ShieldsModule.DamageAble.TakeDamage(damageCaused);
+                    targetLayout.GetInstalledModule("Shields").DamageAble.TakeDamage(damageCaused);
                     break;
             }
         }
@@ -50,8 +51,8 @@ public class DamageSimulator : MonoBehaviour
     private bool hitTarget()
     {
         int weaponAccuracy = TurnManager.GetActivePlayer().MyShip.Weapon.Accuracy;
-        int accuracyBuff = TurnManager.GetActivePlayer().MyShip.shipLayout.SensorsModule.getBuff();
-        int engineEvade = TurnManager.GetInactivePlayer().MyShip.shipLayout.EnginesModule.getBuff();
+        int accuracyBuff = TurnManager.GetActivePlayer().MyShip.shipLayout.GetInstalledModule("Sensors").getBuff();
+        int engineEvade = TurnManager.GetInactivePlayer().MyShip.shipLayout.GetInstalledModule("Engines").getBuff();
 
         int chanceToHit = weaponAccuracy + accuracyBuff - engineEvade;
         return Random.Range(0, 101) <= chanceToHit;
@@ -60,8 +61,8 @@ public class DamageSimulator : MonoBehaviour
     private int getDamageCaused()
     {
         int weaponDamage = TurnManager.GetActivePlayer().MyShip.Weapon.Damage;
-        int damageBuff = TurnManager.GetActivePlayer().MyShip.shipLayout.WeaponsModule.getBuff();
-        int shieldPortection = TurnManager.GetInactivePlayer().MyShip.shipLayout.ShieldsModule.getBuff();
+        int damageBuff = TurnManager.GetActivePlayer().MyShip.shipLayout.GetInstalledModule("Weapons").getBuff();
+        int shieldPortection = TurnManager.GetInactivePlayer().MyShip.shipLayout.GetInstalledModule("Shields").getBuff();
 
         int totalDamageCaused = weaponDamage + damageBuff - shieldPortection;
         return totalDamageCaused;

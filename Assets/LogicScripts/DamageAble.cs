@@ -18,7 +18,6 @@ public class DamageAble : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        Debug.Log("EXISTANCE IS PAIN! -" + amount.ToString());
         DamageFromLastHit = amount;
 
         if (HP != 0)

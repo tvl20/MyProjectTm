@@ -53,7 +53,7 @@ public class CrewMember : MonoBehaviour
 
             if (currentCell.Module != null)
             {
-                currentCell.Module.MannedCrewMember = null;
+                currentCell.Module.UnMountModule();
             }
 
             currentCell.crewMember = null;
@@ -72,7 +72,7 @@ public class CrewMember : MonoBehaviour
         }
         else if (module.MannedCrewMember == null)
         {
-            module.MannedCrewMember = this;
+            module.MountModule(this);
         }
         else
         {

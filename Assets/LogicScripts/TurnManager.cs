@@ -1,17 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class StartTurnEvent : UnityEvent<string> { }
 
 public class TurnManager : MonoBehaviour
 {
+    public StartTurnEvent NewTurnEvent = new StartTurnEvent();
     public List<Player> AllPlayers;
-    public int CurrentPlayerIndex = -1;
+    public int CurrentPlayerIndex = 0;
+    private Vector3 cameraOffset;
 
     void Start()
     {
-        foreach (Player player in AllPlayers)
+        cameraOffset = Camera.main.transform.position - AllPlayers[CurrentPlayerIndex].transform.position;
+
+        foreach(Player player in AllPlayers)
         {
-            player.gameObject.SetActive(false);
+            player.EndTurn();
         }
 
         StartTurn();
@@ -19,12 +27,17 @@ public class TurnManager : MonoBehaviour
 
     public void StartTurn()
     {
-        changeActivePlayer();
-        AllPlayers[CurrentPlayerIndex].StartTurn();
+        NewTurnEvent.Invoke(AllPlayers[CurrentPlayerIndex].PlayerName);
     }
 
     public void EndTurn()
     {
+        if (CurrentPlayerIndex >= 0)
+        {
+            AllPlayers[CurrentPlayerIndex].EndTurn();
+        }
+
+        changeActivePlayer();
         StartTurn();
     }
 
@@ -48,16 +61,12 @@ public class TurnManager : MonoBehaviour
 
     private void changeActivePlayer()
     {
-        if (CurrentPlayerIndex >= 0)
-        {
-            AllPlayers[CurrentPlayerIndex].gameObject.SetActive(false);
-        }
-
         CurrentPlayerIndex++;
         if (CurrentPlayerIndex >= AllPlayers.Count)
         {
             CurrentPlayerIndex = 0;
         }
-        AllPlayers[CurrentPlayerIndex].gameObject.SetActive(true);
+
+        Camera.main.transform.position = AllPlayers[CurrentPlayerIndex].transform.position + cameraOffset;
     }
 }

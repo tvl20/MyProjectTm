@@ -63,6 +63,10 @@
      <Compile Include="Assets\LogicScripts\ShipLayout.cs" />
      <Compile Include="Assets\LogicScripts\TurnManager.cs" />
      <Compile Include="Assets\LogicScripts\Weapon.cs" />
+     <Compile Include="Assets\SerializableArray2D\SerializableArray2D.cs" />
+     <Compile Include="Assets\UiScripts\CurrentPlayerDisplay.cs" />
+     <Compile Include="Assets\UiScripts\HealthMonitor.cs" />
+     <Compile Include="Assets\UiScripts\ModuleMonitor.cs" />
      <Compile Include="Assets\UiScripts\WeaponCooldownUI.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

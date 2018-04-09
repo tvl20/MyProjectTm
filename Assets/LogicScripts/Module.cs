@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Module : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Module : MonoBehaviour
     public int MannedBuff;
     public DamageAble DamageAble;
     public DamageLevel DamageLevel;
-
+    public UnityEvent OnMannedCrewMemberChanged = new UnityEvent();
     public CrewMember MannedCrewMember;
 
     void Awake()
@@ -50,6 +51,18 @@ public class Module : MonoBehaviour
         return currentBuff;
     }
 
+    public void MountModule(CrewMember crewMember)
+    {
+        this.MannedCrewMember = crewMember;
+        OnMannedCrewMemberChanged.Invoke();
+    }
+
+    public void UnMountModule()
+    {
+        this.MannedCrewMember = null;
+        OnMannedCrewMemberChanged.Invoke();
+    }
+
     private void healthChanged()
     {
         if (DamageAble.HP <= 2)
@@ -67,7 +80,7 @@ public class Module : MonoBehaviour
 
         if (DamageLevel != DamageLevel.OK)
         {
-            MannedCrewMember = null;
+            UnMountModule();
         }
     }
 
@@ -78,7 +91,7 @@ public class Module : MonoBehaviour
 
     private void damageTaken()
     {
-        ParentShip.TakeDamage(DamageAble.DamageFromLastHit);
+        ParentShip.DamageAble.TakeDamage(DamageAble.DamageFromLastHit);
 
         healthChanged();
     }
